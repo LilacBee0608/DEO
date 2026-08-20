@@ -58,7 +58,7 @@ const router = createRouter({
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
   // 设置页面标题
-  document.title = to.meta.title ? `${to.meta.title} - 仿哔哩哔哩` : '仿哔哩哔哩'
+  document.title = to.meta.title ? `${to.meta.title} - DEO` : 'DEO - 视频弹幕互动网站'
 
   // 需要登录的路由
   if (to.meta.requiresAuth) {

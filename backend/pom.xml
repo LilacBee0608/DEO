@@ -16,7 +16,7 @@
     <artifactId>bili-demo</artifactId>
     <version>1.0.0</version>
     <name>bili-demo</name>
-    <description>仿哔哩哔哩视频弹幕互动网站后端</description>
+    <description>DEO视频弹幕互动网站后端</description>
 
     <properties>
         <!-- 适配用户的 JDK 24 -->

@@ -2,6 +2,7 @@ package com.bili.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class Video {
 
     /** 视频id(主键,字符串) */
     @TableId
+    @JsonProperty("vId")
     private String vId;
 
     /** 作者id(关联 v_user.id) */
