@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +27,13 @@ public class Danmu {
     /** 用户id(发布弹幕的用户) */
     private String id;
 
-    /** 视频id */
+    /**
+     * 视频id
+     * 字段名 vId 会导致 Lombok 生成的 getVId() 被 Jackson 误推断为 vid
+     * 需要同时在字段、getter、setter 上加 @JsonProperty("vId") 让 Jackson 合并为同一个属性
+     */
+    @Getter(onMethod_ = @JsonProperty("vId"))
+    @Setter(onMethod_ = @JsonProperty("vId"))
     @JsonProperty("vId")
     private String vId;
 
