@@ -1,0 +1,66 @@
+# ===== Java / Maven 构建产物 =====
+target/
+out/
+build/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+
+# ===== Node / 前端 =====
+node_modules/
+dist/
+dist-ssr/
+.npm/
+.pnpm-store/
+*.local
+
+# ===== 日志 =====
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===== IDE / 编辑器(机器相关,不共享) =====
+# IntelliJ IDEA
+.idea/shelf/
+.idea/httpRequests/
+.idea/queries/
+.idea/dataSources/
+.idea/dataSources.local.xml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/shelfHistory/
+.idea/usage.statistics.*/
+.idea/uiDesigner.xml
+.idea/sonarlint/
+.idea/inspectionProfiles/
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+
+# Eclipse / Spring Tools Suite
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+
+# ===== 操作系统 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ===== 环境配置 / 密钥(切勿提交) =====
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.properties
