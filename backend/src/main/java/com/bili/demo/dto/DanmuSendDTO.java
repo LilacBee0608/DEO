@@ -1,5 +1,6 @@
 package com.bili.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,6 +17,7 @@ import lombok.Data;
 public class DanmuSendDTO {
 
     @NotBlank(message = "视频id不能为空")
+    @JsonProperty("vId")
     private String vId;
 
     @NotBlank(message = "弹幕内容不能为空")

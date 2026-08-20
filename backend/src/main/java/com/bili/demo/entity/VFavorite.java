@@ -1,6 +1,7 @@
 package com.bili.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ public class VFavorite {
     /** 用户id */
     private Integer id;
     /** 视频id */
+    @JsonProperty("vId")
     private String vId;
 }
