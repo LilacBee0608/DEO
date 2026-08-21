@@ -19,11 +19,10 @@ const route = useRoute()
 const categories = [
   { label: '全部', value: '' },
   { label: '编程', value: '编程' },
-  { label: '生活', value: '生活' },
+  { label: '美食', value: '美食' },
   { label: '动漫', value: '动漫' },
   { label: '游戏', value: '游戏' },
-  { label: '音乐', value: '音乐' },
-  { label: '鬼畜', value: '鬼畜' }
+  { label: '音乐', value: '音乐' }
 ]
 
 // 当前激活的分类
