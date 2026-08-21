@@ -14,6 +14,10 @@ const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 
+// 网站 logo URL(通过后端静态资源接口访问)
+// 用常量 + :src 动态绑定,防止 Vite 把静态 src 当成 asset import 报错
+const logoUrl = '/api/files/logo/logo.png'
+
 // 搜索关键词(从路由 query 同步)
 const keyword = ref(route.query.title || '')
 
@@ -41,7 +45,12 @@ const onLogout = () => {
       <!-- 左侧: Logo + 搜索 -->
       <div class="nav-left">
         <router-link to="/" class="logo">
-          <span class="logo-icon">📺</span>
+          <img
+            class="logo-img"
+            :src="logoUrl"
+            alt="DEO Logo"
+            @error="e => (e.target.style.display = 'none')"
+          />
           <span class="logo-text">DEO</span>
         </router-link>
 
@@ -114,12 +123,18 @@ const onLogout = () => {
 .logo {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-weight: bold;
   font-size: 18px;
   color: #7388ff;
 }
-.logo-icon { font-size: 22px; }
+.logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
 .search-input {
   width: 320px;
 }

@@ -45,4 +45,5 @@ jwt:
 storage:
   video-dir: ${user.dir}/videos
   cover-dir: ${user.dir}/covers
+  logo-dir: ${user.dir}/logo
   url-prefix: /files      # 静态资源访问前缀

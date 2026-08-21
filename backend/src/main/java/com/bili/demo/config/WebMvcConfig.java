@@ -25,6 +25,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${storage.cover-dir}")
     private String coverDir;
 
+    @Value("${storage.logo-dir}")
+    private String logoDir;
+
     @Value("${storage.url-prefix}")
     private String urlPrefix;
 
@@ -51,5 +54,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 封面文件 /files/covers/xxx.jpg -> 物理目录
         registry.addResourceHandler(urlPrefix + "/covers/**")
                 .addResourceLocations("file:" + coverDir + "/");
+        // Logo 文件 /files/logo/xxx.png -> 物理目录(网站logo资源)
+        registry.addResourceHandler(urlPrefix + "/logo/**")
+                .addResourceLocations("file:" + logoDir + "/");
     }
 }

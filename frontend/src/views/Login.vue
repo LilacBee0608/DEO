@@ -10,6 +10,10 @@ const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 
+// 网站 logo URL(通过后端静态资源接口访问)
+// 用常量 + :src 动态绑定,防止 Vite 把静态 src 当成 asset import 报错
+const logoUrl = '/api/files/logo/logo.png'
+
 // 表单数据
 const form = reactive({
   userName: '',
@@ -63,7 +67,12 @@ const fillTest = () => {
   <div class="login-page">
     <div class="login-card">
       <div class="logo">
-        <span class="logo-icon">📺</span>
+        <img
+          class="logo-img"
+          :src="logoUrl"
+          alt="DEO Logo"
+          @error="e => (e.target.style.display = 'none')"
+        />
         <h1>登录 DEO</h1>
       </div>
 
@@ -123,7 +132,7 @@ const fillTest = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #7388ff 0%, #6CA4F9 100%);
+  background: linear-gradient(135deg, #F9F9F9 0%, #F9F9F9 100%);
 }
 .login-card {
   width: 400px;
@@ -136,8 +145,13 @@ const fillTest = () => {
   text-align: center;
   margin-bottom: 30px;
 }
-.logo-icon {
-  font-size: 48px;
+.logo-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 10px;
+  display: inline-block;
+  vertical-align: middle;
 }
 .logo h1 {
   margin-top: 8px;
