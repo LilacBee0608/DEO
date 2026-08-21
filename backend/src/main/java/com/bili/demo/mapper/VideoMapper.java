@@ -26,12 +26,15 @@ public interface VideoMapper extends BaseMapper<Video> {
      */
     @Select("""
         <script>
-        SELECT v_id, id, title, tags, play_num, like_num, share_num, description, cover_url, video_url, create_time
-        FROM video
+        SELECT v.v_id, v.id, v.title, v.tags, v.play_num, v.like_num, v.share_num,
+               v.description, v.cover_url, v.video_url, v.create_time,
+               u.user_name AS authorName
+        FROM video v
+        LEFT JOIN v_user u ON v.id = CAST(u.id AS CHAR)
         WHERE 1=1
-          <if test="title != null and title != ''">AND title LIKE CONCAT('%', #{title}, '%')</if>
-          <if test="tags  != null and tags  != ''">AND tags  LIKE CONCAT('%', #{tags},  '%')</if>
-        ORDER BY play_num DESC, create_time DESC
+          <if test="title != null and title != ''">AND v.title LIKE CONCAT('%', #{title}, '%')</if>
+          <if test="tags  != null and tags  != ''">AND v.tags  LIKE CONCAT('%', #{tags},  '%')</if>
+        ORDER BY v.play_num DESC, v.create_time DESC
         </script>
         """)
     IPage<Video> selectVideoPage(Page<Video> page,

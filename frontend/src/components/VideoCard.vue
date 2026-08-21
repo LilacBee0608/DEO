@@ -48,7 +48,7 @@ const goDetail = () => {
       <h3 class="title" :title="video.title">{{ video.title }}</h3>
       <p class="author">
         <el-icon><User /></el-icon>
-        <span>UP主: {{ video.id || '匿名' }}</span>
+        <span>UP主: {{ video.authorName || '匿名' }}</span>
       </p>
       <div class="stats">
         <span><el-icon><Star /></el-icon> {{ formatNum(video.likeNum) }}</span>

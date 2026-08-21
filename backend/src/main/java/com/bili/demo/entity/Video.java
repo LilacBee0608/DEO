@@ -1,5 +1,6 @@
 package com.bili.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -57,4 +58,11 @@ public class Video {
 
     /** 创建时间 */
     private LocalDateTime createTime;
+
+    /**
+     * 作者昵称(非数据库字段)
+     * 由 Mapper 的 SQL LEFT JOIN v_user 查询填充,用于列表展示
+     */
+    @TableField(exist = false)
+    private String authorName;
 }
