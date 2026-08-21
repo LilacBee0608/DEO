@@ -168,7 +168,7 @@ onMounted(() => {
   background: #e3e5e7;
 }
 .cat-item.active {
-  background: #fb7299;
+  background: #7388ff;
   color: #fff;
 }
 .video-grid {

@@ -58,3 +58,15 @@ ul, ol {
 .flex { display: flex; }
 .flex-center { display: flex; align-items: center; justify-content: center; }
 .flex-between { display: flex; align-items: center; justify-content: space-between; }
+
+:root {
+  --el-color-primary: #7388ff;
+  /*
+  --el-color-primary-light-3: #fc8eb0;
+  --el-color-primary-light-5: #fdb5cc;
+  --el-color-primary-light-7: #fed0de;
+  --el-color-primary-light-8: #fee4ed;
+  --el-color-primary-light-9: #fff0f5;
+  --el-color-primary-dark-2: #c95b7a;
+  */
+}

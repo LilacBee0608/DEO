@@ -326,7 +326,7 @@ onMounted(async () => {
   gap: 10px;
 }
 .up-avatar {
-  background: #fb7299;
+  background: #7388ff;
   color: #fff;
 }
 .up-name {
@@ -392,7 +392,7 @@ onMounted(async () => {
   gap: 12px;
 }
 .user-avatar {
-  background: #00a1d6;
+  background: #6CA4F9;
   color: #fff;
   flex-shrink: 0;
 }

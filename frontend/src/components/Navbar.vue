@@ -117,7 +117,7 @@ const onLogout = () => {
   gap: 6px;
   font-weight: bold;
   font-size: 18px;
-  color: #fb7299;
+  color: #7388ff;
 }
 .logo-icon { font-size: 22px; }
 .search-input {
@@ -141,7 +141,7 @@ const onLogout = () => {
   background: #f1f2f3;
 }
 .avatar {
-  background: #fb7299;
+  background: #7388ff;
   color: #fff;
 }
 .user-name {
@@ -150,5 +150,14 @@ const onLogout = () => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.upload-btn {
+  background: #fb7299;
+  border-color: #fb7299;
+  color: #fff;
+}
+.upload-btn:hover {
+  background: #f25d8e;
+  border-color: #f25d8e;
 }
 </style>

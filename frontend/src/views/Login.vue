@@ -64,7 +64,7 @@ const fillTest = () => {
     <div class="login-card">
       <div class="logo">
         <span class="logo-icon">📺</span>
-        <h1>登录 bilibili-demo</h1>
+        <h1>登录 DEO</h1>
       </div>
 
       <el-form
@@ -123,7 +123,7 @@ const fillTest = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #fb7299 0%, #f25d8e 100%);
+  background: linear-gradient(135deg, #7388ff 0%, #6CA4F9 100%);
 }
 .login-card {
   width: 400px;
