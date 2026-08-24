@@ -18,7 +18,7 @@ import java.net.UnknownHostException;
  *    (即使 application.yml 配置 server.port=0 随机端口,此处也能拿到最终端口号)
  * 3. server.servlet.context-path 作为接口前缀,与 host + port 拼接得到完整 API Base URL
  * 4. 同时取本机局域网 IP,方便同网段其他设备联调
- * wcr lcq zyl
+ * wcr lcq zyl lmr
  * @author bili-demo
  */
 @SpringBootApplication
