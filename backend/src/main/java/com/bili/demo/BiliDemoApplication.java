@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * 仿哔哩哔哩后端启动类
+ * DEO后端启动类
  * 启动算法思路(端口监听 / 精确打印 localhost 网址):
  * 1. SpringApplication.run() 返回 ConfigurableApplicationContext,在其初始化完成后
  *    Web 服务器已绑定端口,此时可通过 Environment 取出实际运行端口
