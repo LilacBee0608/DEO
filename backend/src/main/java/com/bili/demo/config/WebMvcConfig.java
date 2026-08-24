@@ -35,14 +35,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                // 放行: 登录注册、静态资源、首页视频列表、视频详情、弹幕查询、静态文件
+                // 仅放行: 登录注册接口 + 静态资源访问
+                // 注: /videos/detail/** /videos/list /danmu/list/** /comments/list/** 从 exclude 移除
+                // 由 JwtInterceptor 内部实现"软解析"——游客不抛错,登录用户回填 userId,
+                // 保证视频详情页返回的 liked/favorited/评论点赞态等用户态字段正确。
                 .excludePathPatterns(
-                        "/auth/**",          // 登录注册接口
-                        "/files/**",         // 静态资源
-                        "/videos/list",      // 视频列表(游客可看)
-                        "/videos/detail/**", // 视频详情(游客可看)
-                        "/danmu/list/**",    // 弹幕列表(游客可看)
-                        "/comments/list/**"  // 评论列表(游客可看)
+                        "/auth/**",          // 登录注册接口(全程不需要登录)
+                        "/files/**"          // 静态资源(视频/封面/logo)
                 );
     }
 

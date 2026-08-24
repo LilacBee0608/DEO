@@ -22,6 +22,8 @@ import {
 } from '@/api/video'
 import { getDanmuList, sendDanmu } from '@/api/danmu'
 import { getCommentList, sendComment, likeComment } from '@/api/comment'
+// 观看历史接口(登录用户观看视频时自动记录,后端去重)
+import { recordHistory } from '@/api/user'
 
 const route = useRoute()
 const router = useRouter()
@@ -135,6 +137,10 @@ const loadVideo = async () => {
     if (!playIncrd) {
       playIncrd = true
       try { await incrPlay(route.params.vId) } catch (e) {}
+    }
+    // 记录观看历史(仅登录用户,后端利用 UNIQUE(user_id,v_id) 去重,重复观看只更新时间)
+    if (userStore.isLoggedIn) {
+      try { await recordHistory(route.params.vId) } catch (e) {}
     }
   } finally {
     loading.value = false

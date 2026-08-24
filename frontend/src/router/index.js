@@ -40,6 +40,12 @@ const routes = [
     meta: { title: '上传视频', requiresAuth: true }
   },
   {
+    path: '/user',
+    name: 'UserCenter',
+    component: () => import('@/views/UserCenter.vue'),
+    meta: { title: '个人主页', requiresAuth: true }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/NotFound.vue'),

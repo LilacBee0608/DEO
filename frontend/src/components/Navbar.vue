@@ -37,6 +37,11 @@ const onLogout = () => {
   ElMessage.success('已退出登录')
   router.push('/')
 }
+
+// 跳转个人主页(含观看历史+收藏夹)
+const goUserCenter = () => {
+  router.push('/user')
+}
 </script>
 
 <template>
@@ -76,7 +81,7 @@ const onLogout = () => {
 
         <template v-if="userStore.isLoggedIn">
           <el-dropdown>
-            <span class="user-trigger">
+            <span class="user-trigger" @click="goUserCenter">
               <el-avatar :size="32" class="avatar">
                 {{ userStore.userInfo?.userName?.charAt(0) || 'U' }}
               </el-avatar>
@@ -84,6 +89,7 @@ const onLogout = () => {
             </span>
             <template #dropdown>
               <el-dropdown-menu>
+                <el-dropdown-item @click="goUserCenter">个人主页</el-dropdown-item>
                 <el-dropdown-item @click="router.push('/')">首页</el-dropdown-item>
                 <el-dropdown-item divided @click="onLogout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
