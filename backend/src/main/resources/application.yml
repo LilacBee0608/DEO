@@ -47,3 +47,13 @@ storage:
   cover-dir: ${user.dir}/covers
   logo-dir: ${user.dir}/logo
   url-prefix: /files      # 静态资源访问前缀
+
+# 前端自动启动配置(后端启动时自动执行 npm run dev)
+frontend:
+  # 前端项目根目录(留空则自动探测:从后端工作目录向上查找 frontend 子目录)
+  # 若自动探测失败,可在此填写绝对路径,例如: d:/WebBuilding/GitDEO/frontend
+  dir:
+  # 是否在后端启动时自动启动前端开发服务器
+  auto-start: true
+  # 自动启动命令(无需修改,默认 npm run dev)
+  command: npm run dev

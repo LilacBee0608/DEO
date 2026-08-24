@@ -6,8 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+//组员签名 黄元城 昝永凌 王成瑞 李铭睿 李辰奇
 
 /**
  * DEO后端启动类
@@ -18,7 +21,6 @@ import java.net.UnknownHostException;
  *    (即使 application.yml 配置 server.port=0 随机端口,此处也能拿到最终端口号)
  * 3. server.servlet.context-path 作为接口前缀,与 host + port 拼接得到完整 API Base URL
  * 4. 同时取本机局域网 IP,方便同网段其他设备联调
- * wcr lcq zyl lmr 1
  * @author bili-demo
  */
 @SpringBootApplication
@@ -69,6 +71,141 @@ public class BiliDemoApplication {
         System.out.println(green + "  · 前端首页     : " + reset + "http://localhost:5173/");
         System.out.println(green + "============================================" + reset);
         System.out.println();
+
+        // 6. 自动启动前端开发服务器 (npm run dev)
+        //    读取 application.yml 的 frontend.* 配置
+        //    Windows 下新开命令行窗口启动,与后端日志分离便于排错
+        startFrontendDevServer(env);
+    }
+
+    /**
+     * 自动启动前端开发服务器
+     * 原理: 通过 ProcessBuilder 在新窗口执行 npm run dev
+     * - Windows: cmd /c start "标题" cmd /k "npm run dev" (新窗口保持开启)
+     * - Linux/Mac: sh -c "npm run dev" 后台运行
+     * 配置项 (application.yml):
+     *   frontend.auto-start: 是否自动启动 (默认 true)
+     *   frontend.dir:        前端项目目录 (留空则自动探测)
+     *   frontend.command:    启动命令 (默认 npm run dev)
+     *
+     * 路径自动探测算法:
+     * 由于 IDEA 运行后端时 user.dir 可能是项目根目录或 backend 子目录,
+     * 不再依赖固定相对路径,而是从当前工作目录向上逐级查找,
+     * 找到第一个包含 "frontend/package.json" 的目录作为前端项目根目录。
+     */
+    private static void startFrontendDevServer(ConfigurableEnvironment env) {
+        // 读取配置
+        boolean autoStart = Boolean.parseBoolean(env.getProperty("frontend.auto-start", "true"));
+        String yellow = "\033[33m";
+        String green = "\033[32m";
+        String red = "\033[31m";
+        String reset = "\033[0m";
+
+        if (!autoStart) {
+            System.out.println(yellow + "  · 前端自动启动     : 已禁用 (frontend.auto-start=false)" + reset);
+            return;
+        }
+
+        String command = env.getProperty("frontend.command", "npm run dev");
+        String configuredDir = env.getProperty("frontend.dir", "");
+        File dir;
+
+        if (!configuredDir.isEmpty()) {
+            // 显式配置了前端目录,直接使用
+            dir = new File(configuredDir);
+            if (!dir.isDirectory() || !new File(dir, "package.json").exists()) {
+                System.out.println(yellow + "  · 前端自动启动     : 跳过 (配置的 frontend.dir 无效: " + configuredDir + ")" + reset);
+                return;
+            }
+        } else {
+            // 未配置目录,自动探测:从当前工作目录向上查找 frontend 子目录
+            dir = detectFrontendDir();
+            if (dir == null) {
+                System.out.println(yellow + "  · 前端自动启动     : 跳过 (未自动探测到 frontend 目录,请在 application.yml 配置 frontend.dir)" + reset);
+                return;
+            }
+        }
+
+        try {
+            ProcessBuilder pb = new ProcessBuilder();
+            pb.directory(dir);
+            String osName = System.getProperty("os.name").toLowerCase();
+
+            if (osName.contains("win")) {
+                // Windows: 用 cmd /c start 在新窗口启动
+                // 标题用 "DEO前端-Vite",/k 表示执行后保留窗口便于查看日志
+                // 优先尝试 npm.cmd(Windows 下 npm 是批处理脚本,必须用 .cmd 后缀才能被 ProcessBuilder 正确执行)
+                String npmCmd = resolveNpmCommand();
+                pb.command("cmd", "/c", "start", "\"DEO前端-Vite\"", "cmd", "/k", npmCmd + " run dev");
+            } else {
+                // Linux/Mac: 后台执行
+                pb.command("sh", "-c", command);
+            }
+            pb.redirectErrorStream(true);
+
+            Process process = pb.start();
+
+            // 异步读取子进程 stdout/stderr,防止缓冲区满导致阻塞
+            // (Windows 新窗口模式下输出已在独立窗口显示,这里只消耗流)
+            new Thread(() -> {
+                try (var is = process.getInputStream()) {
+                    byte[] buf = new byte[1024];
+                    while (is.read(buf) != -1) {
+                        // 丢弃输出(已在新窗口显示)
+                    }
+                } catch (Exception ignored) {
+                }
+            }, "frontend-dev-server-reader").start();
+
+            System.out.println(green + "  · 前端自动启动     : " + reset + "成功 (" + command + ")");
+            System.out.println(green + "  · 前端目录         : " + reset + dir.getAbsolutePath());
+            System.out.println(green + "  · 前端开发地址     : " + reset + "http://localhost:5173/");
+            System.out.println(green + "============================================" + reset);
+            System.out.println();
+        } catch (Exception e) {
+            System.out.println(red + "  · 前端自动启动失败 : " + reset + e.getMessage());
+            System.out.println(yellow + "  · 请手动在前端目录执行: " + reset + command);
+        }
+    }
+
+    /**
+     * 自动探测前端项目目录
+     * 从当前工作目录开始,先检查同级是否有 frontend 子目录,
+     * 若没有则逐级向上一级目录查找,直到找到包含 frontend/package.json 的目录。
+     * 这样无论 IDEA 的 user.dir 是项目根还是 backend 子目录都能正确定位。
+     *
+     * @return 前端目录的 File 对象,未找到返回 null
+     */
+    private static File detectFrontendDir() {
+        File current = new File(System.getProperty("user.dir")).getAbsoluteFile();
+        // 最多向上查找 5 级,防止无限循环
+        for (int i = 0; i < 5 && current != null; i++) {
+            // 检查同级 frontend 子目录
+            File frontend = new File(current, "frontend");
+            if (frontend.isDirectory() && new File(frontend, "package.json").exists()) {
+                return frontend;
+            }
+            // 也检查当前目录本身是否就是 frontend(直接运行 frontend 下代码的边缘情况)
+            if ("frontend".equals(current.getName()) && new File(current, "package.json").exists()) {
+                return current;
+            }
+            current = current.getParentFile();
+        }
+        return null;
+    }
+
+    /**
+     * 解析 Windows 下 npm 命令的实际路径
+     * ProcessBuilder 在 Windows 下无法直接执行 "npm"(它是批处理脚本 npm.cmd),
+     * 需要找到 npm.cmd 的绝对路径或退化为 "npm" 让 cmd /k 自行解析。
+     * 这里先尝试直接用 "npm",因为 cmd /k 会从 PATH 查找 npm.cmd。
+     *
+     * @return npm 命令字符串(默认 "npm")
+     */
+    private static String resolveNpmCommand() {
+        // cmd /k 启动的新窗口会继承 PATH,可直接用 npm
+        // 若 PATH 中没有 npm,组员需自行确认 Node.js 已安装并配置 PATH
+        return "npm";
     }
 
     /**
