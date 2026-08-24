@@ -11,7 +11,6 @@ import java.net.UnknownHostException;
 
 /**
  * 仿哔哩哔哩后端启动类
- *
  * 启动算法思路(端口监听 / 精确打印 localhost 网址):
  * 1. SpringApplication.run() 返回 ConfigurableApplicationContext,在其初始化完成后
  *    Web 服务器已绑定端口,此时可通过 Environment 取出实际运行端口
@@ -59,7 +58,7 @@ public class BiliDemoApplication {
         String reset = "\033[0m";
         System.out.println();
         System.out.println(green + "============================================" + reset);
-        System.out.println(green + "  仿哔哩哔哩后端启动成功!" + reset);
+        System.out.println(green + "  DEO后端启动成功!" + reset);
         System.out.println(green + "  · 实际监听端口 : " + reset + port);
         System.out.println(green + "  · Context-Path : " + reset + (contextPath.isEmpty() ? "(无)" : contextPath));
         System.out.println(green + "  · API 根路径   : " + reset + apiBaseUrl);
