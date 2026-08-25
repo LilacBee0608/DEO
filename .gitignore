@@ -4,6 +4,7 @@
 
 # Java/Maven 构建产物
 backend/target/
+out/
 
 # Node 构建产物与依赖
 frontend/node_modules/
