@@ -36,7 +36,7 @@ public class BiliDemoApplication {
 
         // local.server.port 是 Web 容器实际绑定到的端口(推荐优先使用)
         // 若因特殊情况为空,回退使用配置文件里的 server.port
-        String portStr = env.getProperty("local.server.port", env.getProperty("server.port", "8080"));
+        String portStr = env.getProperty("local.server.port", env.getProperty("server.port", "8081"));
         int port = Integer.parseInt(portStr);
 
         // 接口前缀 (context-path),默认 "" 表示无前缀
