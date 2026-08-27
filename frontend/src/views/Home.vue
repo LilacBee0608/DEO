@@ -12,18 +12,15 @@ import { useRoute } from 'vue-router'
 import { getVideoList } from '@/api/video'
 import Navbar from '@/components/Navbar.vue'
 import VideoCard from '@/components/VideoCard.vue'
+// 分类标签统一配置(与投稿页 Upload.vue 共用同一数据源)
+// 修改 src/config/categories.js 后,首页筛选栏与投稿页可选标签会自动同步
+import { categories as tagCategories } from '@/config/categories'
 
 const route = useRoute()
 
-// 分类标签(用于按 tags 筛选,可扩展)
-const categories = [
-  { label: '全部', value: '' },
-  { label: '编程', value: '编程' },
-  { label: '美食', value: '美食' },
-  { label: '动漫', value: '动漫' },
-  { label: '游戏', value: '游戏' },
-  { label: '音乐', value: '音乐' }
-]
+// 分类标签(用于按 tags 筛选)
+// "全部"(value='')为首页筛选专用,由这里拼接;真实标签来自公共配置
+const categories = [{ label: '全部', value: '' }, ...tagCategories]
 
 // 当前激活的分类
 const activeCategory = ref('')

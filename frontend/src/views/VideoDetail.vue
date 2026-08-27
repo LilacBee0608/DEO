@@ -9,7 +9,7 @@
 //   6) 右侧侧边栏: 视频选集(分P,仅多P时显示) + 推荐列表(首页随机,排除当前视频)
 import { ref, onMounted, onBeforeUnmount, computed, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import Navbar from '@/components/Navbar.vue'
 import DanmuPlayer from '@/components/DanmuPlayer.vue'
 import { useUserStore } from '@/stores/user'
@@ -18,7 +18,8 @@ import {
   getVideoList,
   incrPlay,
   toggleLike,
-  toggleFavorite
+  toggleFavorite,
+  deleteVideo
 } from '@/api/video'
 import { getDanmuList, sendDanmu } from '@/api/danmu'
 import { getCommentList, sendComment, likeComment } from '@/api/comment'
@@ -186,6 +187,34 @@ const onFavorite = async () => {
   } catch (e) {}
 }
 
+// ============= 删除视频(仅作者可见) =============
+// 是否为当前视频作者: 匹配当前登录用户 id 与 video.id(作者用户id,字符串)
+// video.id 来自数据库 video 表的 id 字段(存作者的用户id)
+// userStore.userInfo.id 来自登录返回的用户 id,统一转字符串比较避免类型不一致
+const isOwner = computed(() => {
+  if (!video.value || !userStore.isLoggedIn) return false
+  return String(userStore.userInfo?.id) === String(video.value.id)
+})
+
+// 删除视频(前端二次确认,后端 delete 接口会再次校验作者本人)
+const onDeleteVideo = async () => {
+  if (!isOwner.value) return
+  try {
+    await ElMessageBox.confirm('删除后视频将不可恢复,确定要删除吗?', '删除确认', {
+      confirmButtonText: '删除',
+      cancelButtonText: '取消',
+      type: 'warning'
+    })
+  } catch (e) {
+    return // 用户点击取消
+  }
+  try {
+    await deleteVideo(route.params.vId)
+    ElMessage.success('视频已删除')
+    router.push('/')
+  } catch (e) {}
+}
+
 // ============= 弹幕发送 =============
 const onSendDanmu = async (payload) => {
   if (!userStore.isLoggedIn) {
@@ -340,6 +369,18 @@ onBeforeUnmount(() => {
               <el-button round>
                 <el-icon><Share /></el-icon>
                 <span>{{ formatNum(video.shareNum) }}</span>
+              </el-button>
+
+              <!-- 删除(仅视频作者可见,匹配当前登录用户id与video.id) -->
+              <el-button
+                v-if="isOwner"
+                type="danger"
+                plain
+                round
+                @click="onDeleteVideo"
+              >
+                <el-icon><Delete /></el-icon>
+                <span>删除</span>
               </el-button>
             </div>
           </div>

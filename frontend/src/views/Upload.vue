@@ -12,6 +12,9 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Navbar from '@/components/Navbar.vue'
 import { createVideo } from '@/api/video'
+// 标签统一配置(与首页 Home.vue 共用同一数据源)
+// 修改 src/config/categories.js 后,首页筛选栏与投稿页可选标签会自动同步添加/删除
+import { categories as tagOptions } from '@/config/categories'
 
 const router = useRouter()
 
@@ -26,7 +29,7 @@ const parts = ref([])
 
 const form = reactive({
   title: '',
-  tags: '',
+  tags: [], // 标签改为列表选择(数组),提交时 join 为字符串
   description: '',
   coverUrl: '',
   videoUrl: '' // 提交时根据模式动态填充
@@ -41,7 +44,7 @@ const rules = {
     { max: 100, message: '标题最长100字符', trigger: 'blur' }
   ],
   tags: [
-    { max: 10, message: '标签最长10字符', trigger: 'blur' }
+    { type: 'array', max: 5, message: '最多选择5个标签', trigger: 'change' }
   ]
 }
 
@@ -118,7 +121,12 @@ const onSubmit = async () => {
     submitting.value = true
     try {
       // 动态填充 videoUrl 后提交
-      const res = await createVideo({ ...form, videoUrl: url })
+      // 标签: 数组(列表选择)以逗号拼接为字符串存储,与首页 tags 模糊搜索匹配
+      const res = await createVideo({
+        ...form,
+        tags: form.tags.join(','),
+        videoUrl: url
+      })
       ElMessage.success('上传成功')
       router.push(`/video/${res.data.vId}`)
     } finally {
@@ -151,11 +159,22 @@ const onSubmit = async () => {
         </el-form-item>
 
         <el-form-item label="标签" prop="tags">
-          <el-input
+          <!-- 列表选择: 可选标签与首页分类栏同步(共同引用 config/categories.js) -->
+          <el-select
             v-model="form.tags"
-            placeholder="编程 / 生活 / 动漫 / 游戏 / 音乐"
-            maxlength="10"
-          />
+            multiple
+            collapse-tags
+            collapse-tags-tooltip
+            placeholder="请选择视频标签(可多选)"
+            style="width: 100%"
+          >
+            <el-option
+              v-for="cat in tagOptions"
+              :key="cat.value"
+              :label="cat.label"
+              :value="cat.value"
+            />
+          </el-select>
         </el-form-item>
 
         <el-form-item label="简介" prop="description">
