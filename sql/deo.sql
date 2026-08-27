@@ -11,7 +11,7 @@
  Target Server Version : 80028 (8.0.28)
  File Encoding         : 65001
 
- Date: 25/08/2026 13:00:08
+ Date: 27/08/2026 10:19:43
 */
 
 SET NAMES utf8mb4;
@@ -59,16 +59,17 @@ CREATE TABLE `history`  (
   `watch_time` datetime NOT NULL,
   PRIMARY KEY (`hid`) USING BTREE,
   UNIQUE INDEX `uk_user_video`(`user_id` ASC, `v_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of history
 -- ----------------------------
-INSERT INTO `history` VALUES (1, 1, 'v004', '2026-08-25 11:21:05');
-INSERT INTO `history` VALUES (2, 1, 'v001', '2026-08-25 10:55:20');
-INSERT INTO `history` VALUES (3, 1, 'v003', '2026-08-24 17:23:11');
-INSERT INTO `history` VALUES (4, 1, 'v002', '2026-08-24 17:23:12');
+INSERT INTO `history` VALUES (1, 1, 'v004', '2026-08-27 10:01:16');
+INSERT INTO `history` VALUES (2, 1, 'v001', '2026-08-27 09:54:02');
+INSERT INTO `history` VALUES (3, 1, 'v003', '2026-08-27 09:54:19');
+INSERT INTO `history` VALUES (4, 1, 'v002', '2026-08-27 09:54:05');
 INSERT INTO `history` VALUES (19, 1, 'v89f7d602', '2026-08-25 11:28:36');
+INSERT INTO `history` VALUES (21, 1, 'va8ce6c9c', '2026-08-27 09:54:00');
 
 -- ----------------------------
 -- Table structure for v_comment
@@ -179,10 +180,10 @@ CREATE TABLE `video`  (
 -- ----------------------------
 -- Records of video
 -- ----------------------------
-INSERT INTO `video` VALUES ('v001', '1', '氰化物欢乐秀', '动漫', 1033, 257, 32, '最爱的小剧场', '/api/files/covers/1.jpg', '/api/files/videos/1-1.mp4\r\n/api/files/videos/1-2.mp4', '2026-08-20 16:58:36');
-INSERT INTO `video` VALUES ('v002', '1', '太刀侠永远的梦想', '游戏', 2053, 512, 64, '原来你也玩怪猎', '/api/files/covers/2.jpg', '/api/files/videos/2.mp4', '2026-08-20 16:58:36');
-INSERT INTO `video` VALUES ('v003', '2', '”电子海洋“复刻教程来啦！', '编程', 5128, 1024, 128, '可以用嘉立创免费打板', '/api/files/covers/3.jpg', '/api/files/videos/3.mp4', '2026-08-20 16:58:36');
-INSERT INTO `video` VALUES ('v004', '3', '[4K]Rick Roll', '音乐', 8243, 2049, 256, '你又被骗了', '/api/files/covers/4.jpg', '/api/files/videos/4.mp4', '2026-08-20 16:58:36');
-INSERT INTO `video` VALUES ('va8ce6c9c', '1', '𝑩𝒍𝒐𝒐𝒅 𝑰𝒏 𝑻𝒉𝒆 𝑾𝒊𝒏𝒆 _ 烹肉为实，酿血为酒', '美食', 7, 1, 0, '男女通吃', '/api/files/covers/5.jpg', '/api/files/videos/5.mp4', '2026-08-21 09:38:33');
+INSERT INTO `video` VALUES ('v001', '1', '氰化物欢乐秀', '动漫', 1034, 257, 32, '最爱的小剧场', '/api/files/covers/1.jpg', '/api/files/videos/1-1.mp4\r\n/api/files/videos/1-2.mp4', '2026-08-20 16:58:36');
+INSERT INTO `video` VALUES ('v002', '1', '太刀侠永远的梦想', '游戏', 2054, 512, 64, '原来你也玩怪猎', '/api/files/covers/2.jpg', '/api/files/videos/2.mp4', '2026-08-20 16:58:36');
+INSERT INTO `video` VALUES ('v003', '2', '”电子海洋“复刻教程来啦！', '编程', 5130, 1024, 128, '可以用嘉立创免费打板', '/api/files/covers/3.jpg', '/api/files/videos/3.mp4', '2026-08-20 16:58:36');
+INSERT INTO `video` VALUES ('v004', '3', '[4K]Rick Roll', '音乐', 8246, 2049, 256, '你又被骗了', '/api/files/covers/4.jpg', '/api/files/videos/4.mp4', '2026-08-20 16:58:36');
+INSERT INTO `video` VALUES ('va8ce6c9c', '1', '𝑩𝒍𝒐𝒐𝒅 𝑰𝒏 𝑻𝒉𝒆 𝑾𝒊𝒏𝒆 _ 烹肉为实，酿血为酒', '美食', 12, 1, 0, '男女通吃', '/api/files/covers/5.jpg', '/api/files/videos/5.mp4', '2026-08-21 09:38:33');
 
 SET FOREIGN_KEY_CHECKS = 1;
